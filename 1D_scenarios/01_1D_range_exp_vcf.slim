@@ -1,0 +1,352 @@
+// RANGE EXPANSION - trials of October 2020
+// set up
+initialize() {
+	// starting the clock
+	defineConstant("start", clock());
+	
+	/* 
+	// command line constants to use in SLiM GUI if needed to debug
+	
+	// chromosome size
+	defineConstant("chrL", 100000000);
+	
+	// mutation rate
+	defineConstant("mu", 1.25e-8);
+	
+	// recombination rate
+	defineConstant("rho", 1e-8);
+	
+	// number of core demes
+	defineConstant("core", 5);
+
+	// number of edge demes
+	defineConstant("edge", 5);
+
+	// this is the carrying capacity
+	defineConstant("maxN", 100);
+
+	//this is the migration rate to be used throughout the simulation. It should be the same for everything (core demes and wave demes)
+	defineConstant("migr", 0.1);
+
+	// number of generations needed to reach carrying capacity (maxN)
+	defineConstant("tgrw", 5);
+
+	// growth constant
+	defineConstant("r1", 0.35);
+	
+	// growth factor (exp(r*t), for t=1)
+	defineConstant("ert1", 1.80);
+
+	// burn-in period in generations, before expansion starts
+	defineConstant("burnin", 500);
+
+
+    // defineConstant("GridSize", 9);
+	//this should be the number of deme in each size od the grid 
+	//(eg. if grid = 9, side = 3 (because 3*3 =9, and the grid is simetrical))
+	// defineConstant("GridSide", 3);
+
+	defineConstant("replicate", 1);
+
+    defineConstant("out", "/Users/flaschli/Dropbox/SLiM_results/vcf_files");
+	
+	defineConstant("Fndrs", 20);
+	
+	defineConstant("out_mut_path", "/Users/flaschli/Dropbox/SLiM_results/muts");
+	
+	defineConstant("out_pop_path", "/Users/flaschli/Dropbox/SLiM_results/popsizes");
+
+*/
+////////<-------------------------------------------------
+
+
+	// chromosome size
+	defineConstant("L", chrL);
+
+	//the burn-in time
+	defineConstant("burn", burnin);
+	
+
+	//time to reach saturation is tg generations
+	defineConstant("tg", tgrw);
+	defineConstant("t1", 1);
+
+	// growth component (e^r1*t) (== exp(r1*t))
+	defineConstant("er1", ert1);
+
+	// MUTATION and RECOMBINATION
+	initializeMutationRate(mu);
+	initializeRecombinationRate(rho);
+
+	defineConstant("rep", replicate);
+
+	defineConstant("out_path", out);
+	
+	defineConstant("founders", Fndrs);
+
+	defineConstant("out_mut_path", out_mut);
+	defineConstant("out_pop_path", out_pop);
+	defineConstant("burnin_path", burn_pop);
+
+    // ----------------> Re-running simulations --------------------------->
+    defineConstant("num_samples", nsamps);
+	// defineConstant("burn_rep", burn_rep);
+    
+    // <---------------- end for Re-running simulations <---------------------------
+
+
+    // -------------------> additions for sampling long burnin files <------------------------
+    // nrep=seq(31,40);
+    // defineConstant("burn_rep", sample(nrep, 1));
+
+    // <---------------- end for additions of long burnin <---------------------------
+
+	// neutral mutations
+	initializeMutationType("m1", 0.0, "f", 0);
+	m1.convertToSubstitution = T;
+	m1.mutationStackPolicy = "l";
+	m1.color = "red";
+
+	// genomic elements
+	initializeGenomicElementType("g1", m1, 1.0);
+	initializeGenomicElement(g1, 0, (L-1));
+	
+	initializeTreeSeq();
+}
+
+function (o<Subpopulation>)SWI(integer $id)
+{
+	subpops = sim.subpopulations;
+	subpop = subpops[subpops.id == id];
+	if (subpop.length() != 1)
+		stop("Lookup of subpop with index " + id + " failed.");
+	return subpop;
+}
+
+
+s1 1 late () {
+	if (rho == 1e-8){
+		if (rep > 100 & rep <= 200 ){
+			rep_file=(rep-100);
+		} else if (rep > 200 & rep  <= 300){
+		rep_file=(rep-200);
+		} else if (rep > 300 & rep  <= 400){
+		rep_file=(rep-300);
+		} else if (rep > 400 & rep  <= 500){
+		rep_file=(rep-400);
+		} else if (rep > 500 & rep  <= 600){
+		rep_file=(rep-500);
+		} else if (rep > 600  & rep <= 700){
+		rep_file=(rep-600);
+		} else if (rep > 700 & rep  <= 800){
+		rep_file=(rep-700);
+		} else if (rep > 800 & rep  <= 900){
+		rep_file=(rep-800);
+		} else if (rep > 900  & rep <= 1000){
+		rep_file=(rep-900);
+		} else{
+			rep_file=rep;
+		}
+	} else if (rho == 1e-9){
+		if (rep > 100){
+			rep_file=(rep+200);
+		} else if (rep <= 100){
+			rep_file=(rep+300);
+		}
+	} else if (rho == 1e-7){
+		if (rep > 100){
+			rep_file=(rep+400);
+		} else if (rep <= 100){
+			rep_file=(rep+500);
+		}
+	} else {
+		catn(asString("Wrong value of Recombination Rate (rho) to determnine correct burn-in file replicate number. Simulation Interrupted"));
+		sim.simulationFinished();
+	}
+
+
+	cat("------------------------- \n");
+	cat("sim_rep: " + rep + "\n");
+	cat("burn_rep: " + rep_file + "\n");
+	cat("burn - 1 : " + (burn -1) + "\n");
+    cat("------------------------- \n");
+	catn(asString("../" + burnin_path + "/out_" + "burnin_1D_c" + (core) + "_g" + (burn-1) + "_r" + rep_file + ".trees"));
+    sim.readFromPopulationFile(asString("../" + burnin_path + "/out_" + "burnin_1D_c" + (core) + "_g" + (burn-1) + "_r" + rep_file + ".trees"));
+	cat("Finished loading burn-in tree file \n");
+}
+
+// s2 _burn_in_: late(){
+
+
+// 	// I want a list of the INDEX of the active populations	
+// 	actD = (sim.subpopulations.id);
+// 	actD=matrix(actD, ncol=1);
+
+// 	sizeD = sim.subpopulations.individualCount;
+// 	sizeD = matrix(sizeD, ncol=1);
+
+// 	numPop=length(sim.subpopulations.id);
+// 	gens=matrix(c(rep(sim.generation, numPop)),ncol=1);
+
+// 	tbl = matrix(c(gens, actD, sizeD), ncol=3);
+ 
+// 	for (i in 0:(length(tbl)/3)){
+//     	if (i < (length(tbl)/3)){
+//     		writeFile(asString(out_pop_path + "/popSizes"+ "_"+ rep + ".txt"), paste(tbl[i,]), T);
+// 		} else {break;}
+// 	}
+// }
+
+
+//END OF BURN-IN PHASE
+s4 _burn_in_: early () {
+	
+	if ((sim.generation % tg) == 0){
+
+		j = asInteger(((sim.generation-burn-100)/tg)+core+1);
+		
+		newPop = paste0("sim.addSubpop('p" +  j + "', founders);");
+		executeLambda(newPop);
+
+
+        SWI(j).setMigrationRates(SWI(j-1), 1);
+        sim.subpopulations.individuals.color="yellow";
+	    sim.subpopulations.individuals[sim.subpopulations.individuals.migrant].color="blue";
+
+	}
+}
+
+s5 _burn_in_: late (){
+	
+	if (sim.generation % tg == 0){
+		if (tg == 5){
+			sim.setValue("gen_to_samp", sim.generation);
+			sim.setValue("gen_plus_four", (sim.getValue("gen_to_samp")+4));
+			sim.setValue("gen_plus_two", (sim.getValue("gen_to_samp")+2));
+		} else {
+			end=9;
+			mid=6;
+			sim.setValue("gen_to_samp", sim.generation);
+			sim.setValue("gen_plus_four", (sim.getValue("gen_to_samp")+end));
+			sim.setValue("gen_plus_two", (sim.getValue("gen_to_samp")+mid));			
+		}
+	
+	}
+
+	// x1=sim.getValue("gen_to_samp");
+
+	// if (sim.generation == x1){
+	// 	idp=sim.subpopulations.id;
+	// 	i=(length(sim.subpopulations.id)-1);
+    // 	sampVCF=paste0("p"+ idp[i] +".outputVCFSample(" + num_samples + ", replace=F, outputMultiallelics=T, filePath='" + out_path +"/out_p" + idp[i] + "_gen_" + sim.generation + ".vcf', append= F);");
+    // 	executeLambda(sampVCF);
+	// }
+
+
+	if (sim.generation % tg == 0){
+		j = asInteger(((sim.generation-burn-100)/tg)+core+1);
+
+        size1 = asInteger(SWI(j).individualCount);
+        SWI(j-1).setMigrationRates(SWI(j), migr);
+        SWI(j).setMigrationRates(SWI(j-1), migr);
+
+		sim.setValue("ini", sim.generation);
+		sim.setValue("ppk", j);
+        sim.subpopulations.individuals.color="yellow";
+	    sim.subpopulations.individuals[sim.subpopulations.individuals.migrant].color="blue";
+	}
+}
+
+
+// s66 _other_gens_:25030 late(){
+
+// 	x2=sim.getValue("gen_plus_four");
+// 	if (sim.generation == x2){
+// 		idp=sim.subpopulations.id;
+
+// 		// i=(length(sim.subpopulations.id)-1);
+//     	// sampVCF=paste0("p"+ idp[i] +".outputVCFSample(" + num_samples + ", replace=F, outputMultiallelics=T, filePath='" + out_path +"/out_p" + idp[i] + "_gen_" + sim.generation + ".vcf', append= F);");
+//     	// executeLambda(sampVCF);
+
+// 		z=(length(sim.subpopulations.id)-5);
+//     	sampVCF2=paste0("p"+ idp[z] +".outputVCFSample(" + num_samples + ", replace=F, outputMultiallelics=T, filePath='" + out_path +"/out_p" + idp[z] + "_gen_" + sim.generation + ".vcf', append= F);");
+//     	executeLambda(sampVCF2);
+// 	}
+// }
+
+
+s6 _other_gens_: late(){
+
+	x2=sim.getValue("gen_plus_four");
+	if (sim.generation == x2){
+		idp=sim.subpopulations.id;
+
+		// i=(length(sim.subpopulations.id)-1);
+    	// sampVCF=paste0("p"+ idp[i] +".outputVCFSample(" + num_samples + ", replace=F, outputMultiallelics=T, filePath='" + out_path +"/out_p" + idp[i] + "_gen_" + sim.generation + ".vcf', append= F);");
+    	// executeLambda(sampVCF);
+
+		z=(length(sim.subpopulations.id)-5);
+    	sampVCF2=paste0("p"+ idp[z] +".outputVCFSample(" + num_samples + ", replace=F, outputMultiallelics=T, filePath='" + out_path +"/out_p" + idp[z] + "_gen_" + sim.generation + ".vcf', append= F);");
+    	executeLambda(sampVCF2);
+	}
+
+	x3=sim.getValue("gen_plus_two");
+	if (sim.generation == x3){
+		idp=sim.subpopulations.id;
+		
+		z=(length(sim.subpopulations.id)-1);
+    	sampVCF2=paste0("p"+ idp[z] +".outputVCFSample(" + num_samples + ", replace=F, outputMultiallelics=T, filePath='" + out_path +"/out_p" + idp[z] + "_gen_" + sim.generation + ".vcf', append= F);");
+    	executeLambda(sampVCF2);
+	}
+
+	kct = sim.getValue("ini") + tg + 1;
+	
+	if (sim.generation <= kct) {
+
+
+		pop = sim.getValue("ppk");
+
+        newSize = round(SWI(pop).individualCount * er1);
+        cat("edge deme: " + pop + "\n");
+        cat("NewSize: " + newSize + "\n");
+        cat("Current Gen: " + sim.generation + "\n");
+        cat("IndividualCount: " + SWI(pop).individualCount + "\n");
+        cat("------------------------- \n");
+
+		if (newSize < maxN){
+
+			SWI(pop).setSubpopulationSize(asInteger(newSize));
+
+		} else {
+
+            SWI(pop).setSubpopulationSize(maxN);
+
+            sim.subpopulations.individuals.color="yellow";
+	        sim.subpopulations.individuals[sim.subpopulations.individuals.migrant].color="blue";
+
+		}
+	}
+}
+
+
+s7 _other_gens_: {
+	if (size(asString(sim.subpopulations.id)) > (2*core)){
+		idpop = sim.subpopulations.id;
+
+        SWI(idpop[core]).setSubpopulationSize(0);
+	}
+
+}
+
+
+
+s8 _end_sim_ late(){
+	SWI(1).outputVCFSample(100, replace=F, outputMultiallelics=T, filePath=asString(out_path + "/out_gen_" + sim.generation + "p1_r" + rep + "re_run_.vcf"), append= F);
+	sim.outputUsage();
+
+	defineConstant("fim", clock());
+	duration = fim - start;
+	// sim.treeSeqOutput(asString(out_path + "/out_gen_" + sim.generation + "_1D_" + (core) + "_r" + rep + "_final_generation.trees"));
+	catn(asString("sim with total duration of " + duration));
+	sim.simulationFinished();
+}

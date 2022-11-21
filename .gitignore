@@ -1,0 +1,15 @@
+genomicSurfing.code-workspace
+1D_scenarios/clean_up_scripts/*.*
+1D_scenarios/informative_files/*.*
+1D_scenarios/deploy_steps_data_analysis.sh
+2D_scenarios/.Rhistory
+2D_scenarios/UPDATED_deploy_steps_02to04.sh
+recMap/1D/00_slurm_gzip_vcf_folders.sh
+2D_scenarios/00_slurm_set_up_folder_recMap_sims.sh
+2D_scenarios/00_slurm_set_up_folder_2d_sims.sh
+2D_scenarios/00_slurm_gzip_vcf_folders.sh
+2D_scenarios/gzip_vcf_folders.sh
+recMap/1D/deploy_steps_data_analysis_cluster_m4_m6_m7.sh
+2D_scenarios/*
+recMap/*
+robustness/*

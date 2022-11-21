@@ -312,3 +312,6 @@ sbatch --array=1 ${slurm_script} ${main_folder} ${prefix} ${model} ${sufix} ${fi
 **work directory for R script** `${HOME}/${USER}/fwd_RangeExpansion/1d_c5_e5_l100_d100_f20_m10_g5/sim_files`
 
 [back to top &uarr;](#how-to-run-simulations-and-analyse-data)
+
+
+<!-- first version of files: 1D sim+ana and READ ME -->

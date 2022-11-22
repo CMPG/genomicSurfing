@@ -130,7 +130,9 @@ blabla
 ### 2.1.2 Files description
 
 - `samp_edge_demes_1D_**.txt` &rarr; `**`: number of samples; no header & space delimited;
-<br>
+
+
+
    | generation | pop id |
    | ---------- | ------ |
    | 25002      | 6      |
@@ -139,14 +141,18 @@ blabla
    | 25017      | 9      |
 
 
+
 - `**k_win_coord.csv` &rarr; `**`: window size in kb, e.g. 10; with header and comma separated
-<br>
+
+
    | ini   | end   | wsize | mid_win | id  |
    | ----- | ----- | ----- | ------- | --- |
    | 18751 | 28751 | 10000 | 23751   | 4   |
    | 26251 | 36251 | 10000 | 31251   | 5   |
    | 33751 | 43751 | 10000 | 38751   | 6   |
    | 41251 | 51251 | 10000 | 46251   | 7   |
+
+
 
 [back to top &uarr;](#how-to-run-simulations-and-analyse-data)
 

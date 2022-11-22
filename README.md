@@ -3,23 +3,24 @@
 <!-- TOC -->
 
 - [How to run Simulations and analyse data](#how-to-run-simulations-and-analyse-data)
-- [0.0 Preparation](#00-preparation)
-  - [0.1 Order of actions](#01-order-of-actions)
-  - [0.2 Parameter files](#02-parameter-files)
-- [1. Simulations](#1-simulations)
-  - [1.1 Burn-in](#11-burn-in)
-  - [1.2 1D simulations](#12-1d-simulations)
-- [2. Data Analysis](#2-data-analysis)
-  - [2.1 Files organization](#21-files-organization)
-    - [2.1.1 Files used for each step:](#211-files-used-for-each-step)
-    - [2.1.2 Files description](#212-files-description)
-  - [2.2 order of things](#22-order-of-things)
-  - [2.2 Allele counts: per generation \& per replicate](#22-allele-counts-per-generation--per-replicate)
-  - [2.3 Genome scan: window the genome and calculate pi](#23-genome-scan-window-the-genome-and-calculate-pi)
-  - [2.4 Map troughs based on a threshold](#24-map-troughs-based-on-a-threshold)
-    - [2.4.1 per replicate](#241-per-replicate)
-    - [2.4.2 combine files](#242-combine-files)
-  - [2.5 Convert diversity data to proportion lost](#25-convert-diversity-data-to-proportion-lost)
+- [Preparation](#preparation)
+    - [Order of actions](#order-of-actions)
+    - [Parameter files](#parameter-files)
+- [Simulations](#simulations)
+    - [Burn-in](#burn-in)
+    - [1D simulations](#1d-simulations)
+- [Data Analysis](#data-analysis)
+    - [Files organization](#files-organization)
+        - [Files used for each step:](#files-used-for-each-step)
+        - [Files description](#files-description)
+        - [order of things](#order-of-things)
+    - [Allele counts: per generation & per replicate](#allele-counts-per-generation--per-replicate)
+    - [Genome scan: window the genome and calculate pi](#genome-scan-window-the-genome-and-calculate-pi)
+    - [Map troughs based on a threshold](#map-troughs-based-on-a-threshold)
+        - [per replicate](#per-replicate)
+        - [combine files](#combine-files)
+    - [Convert diversity data to proportion lost](#convert-diversity-data-to-proportion-lost)
+    - [trough distribuitions depending on recombination landscape permutation](#trough-distribuitions-depending-on-recombination-landscape-permutation)
 
 <!-- /TOC -->
 
@@ -35,19 +36,19 @@
 
 ## 0.2 Parameter files
 
-`chrL`: genome length in bp
-`mu`: mutation rate
-`rho`: recombination rate
-`core`: number of demes at the core
-`maxN`: carrying capacity (max num. inds)
-`mig`: migration rate in decimal (SLiM way of defining migration)
-`tgrw`: time to reach caryying capacity
-`r1`: 
-`ert1`: growth factor at each generation
-`burn`: last generation of burn in tree file
-`aftgen`: generation to start expansion
-`end`: last expansion generation
-`Fndrs`: number of founders
+* `chrL`: genome length in bp
+* `mu`: mutation rate
+* `rho`: recombination rate
+* `core`: number of demes at the core
+* `maxN`: carrying capacity (max num. inds)
+* `mig`: migration rate in decimal (SLiM way of defining migration)
+* `tgrw`: time to reach caryying capacity
+* `r1`: 
+* `ert1`: growth factor at each generation
+* `burn`: last generation of burn in tree file
+* `aftgen`: generation to start expansion
+* `end`: last expansion generation
+* `Fndrs`: number of founders
 
 [back to top &uarr;](#how-to-run-simulations-and-analyse-data)
 
@@ -121,9 +122,25 @@ blabla
 - 04a_get_troughs_per_replicate.R
 - 04_FUNCTIONS_get_troughs_per_replicate.R
 
+These steps below have to happen after steps 1-4, but not in any particular order:
+
 **step 5**
 - 07_convert_time_to_diversity_loss.R
 - 07_slurm_convert_time_to_diversity_loss.sh
+
+**step 6**
+- 06_slurm_permutation.sh
+- 06_null_dist_troughs.R
+- 06_FUNCTIONS_null_dist_troughs.R
+
+**step 7**
+- 08_asymmetry_in_troughs.R
+- 08_slurm_trough_asymmetry.sh
+- 08_FUNCTIONS_asymmetry_in_troughs.R
+
+
+
+
 
 [back to top &uarr;](#how-to-run-simulations-and-analyse-data)
 
@@ -156,7 +173,7 @@ blabla
 
 [back to top &uarr;](#how-to-run-simulations-and-analyse-data)
 
-## 2.2 order of things
+### 2.1.3 order of things
 
 1. `cd` to model folder
 2. make a sub folder: `sim_files`
@@ -319,5 +336,58 @@ sbatch --array=1 ${slurm_script} ${main_folder} ${prefix} ${model} ${sufix} ${fi
 
 [back to top &uarr;](#how-to-run-simulations-and-analyse-data)
 
+## 2.6 trough distribuitions depending on recombination landscape (permutation)
 
-<!-- first version of files: 1D sim+ana and READ ME -->
+
+```bash
+lvl=10
+mod_prefix="1d_c5_l100_d100"
+samp=10
+winsize="10k"
+mod_sufix="f20_m10_g5"
+main_dir="${HOME}/${USER}/recMap_fwd_RangeExpansion"
+
+mod_tail_LIST=("recMap_100k_m2" "recMap_100k_m3")
+
+for mod_tail in "${mod_tail_LIST[@]}"; do
+  echo ${mod_tail}
+
+  cd ${main_dir}/${mod_prefix}_${mod_sufix}_${mod_tail}
+  
+  echo ${PWD}
+
+  mkdir -p results_permutation_10k
+  
+  sbatch --array=1-200%50 06_slurm_permutation.sh ${lvl} ${mod_prefix} ${samp} ${winsize} ${mod_sufix} ${mapType}
+done
+
+```
+
+
+
+
+
+Resulting file:
+
+`proba_rec_rate_in_troughs_lvl`**troughThresholdAsPercentage**`_`**completeModelName**`_`**sampleSize**`inds_win_`**windowsize**`k_r`**rep**`.txt`
+
+| gen   | cpop | rep | obs.mean.rec         | probability       |
+| ----- | ---- | --- | -------------------- | ----------------- |
+| 25003 | 4    | 132 | 1.65147443650357e-08 | 0.636666666666667 |
+| 25008 | 9    | 132 | 1.63510992993476e-08 | 0.896666666666667 |
+| 25013 | 14   | 132 | 1.59076823935558e-08 | 1                 |
+| 25018 | 19   | 132 | 1.61938738121737e-08 | 0.846666666666667 |
+| 25023 | 24   | 132 | 1.59505868076624e-08 | 0.963333333333333 |
+| 25028 | 29   | 132 | 1.62395872348557e-08 | 0.643333333333333 |
+
+
+
+` permut_mean_rec_rate_in_troughs_by_case_lvl`**troughThresholdAsPercentage**`_`**completeModelName**`_`**sampleSize**`inds_win_`**windowSize**`k_r`**repNumber**`.txt`
+
+| gen   | cpop | rep | perm.mean.rec        | obs.mean.rec         | is.perm.rate.higher | diff                 |
+| ----- | ---- | --- | -------------------- | -------------------- | ------------------- | -------------------- |
+| 25003 | 4    | 132 | 1.67645079714128e-08 | 1.65147443650357e-08 | TRUE                | 2.49763606377155e-10 |
+| 25003 | 4    | 132 | 1.65731280923584e-08 | 1.65147443650357e-08 | TRUE                | 5.83837273227164e-11 |
+| 25003 | 4    | 132 | 1.66954370533259e-08 | 1.65147443650357e-08 | TRUE                | 1.80692688290289e-10 |
+| 25003 | 4    | 132 | 1.68642550852116e-08 | 1.65147443650357e-08 | TRUE                | 3.49510720175962e-10 |
+

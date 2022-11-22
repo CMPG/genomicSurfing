@@ -127,7 +127,13 @@ write.table(name_col, sprintf("%s/diversity_data_raw_%s_wsize_10k_10inds_all_rep
 for(rec in seq(from, to, 1)){
 
   file_name=sprintf("%s/%s/genomic_profile_10k/genomic_profile_active_demes_%s_r%s_resamp_10inds.txt.gz", files_dir, rec, model, rec)
-  
+  # | gen   | cpop | rep | mean_pi_raw          | mean_pi_samp         | w_id  |
+  # | ----- | ---- | --- | -------------------- | -------------------- | ----- |
+  # | 25002 | 6    | 183 | 0.00016              | 0.00016271186440678  | 1     |
+  # | 25002 | 6    | 183 | 5.35555555555556e-05 | 5.44632768361582e-05 | 2     |
+  # | 25002 | 6    | 183 | 0.000177944444444444 | 0.000180960451977401 | 3     |
+
+
   if (file.exists(file_name)){
     dat=fread(file_name)
     print(rec)

@@ -90,16 +90,8 @@ initialize() {
 
     // ----------------> Re-running simulations --------------------------->
     defineConstant("num_samples", nsamps);
-	// defineConstant("burn_rep", burn_rep);
-    
+
     // <---------------- end for Re-running simulations <---------------------------
-
-
-    // -------------------> additions for sampling long burnin files <------------------------
-    // nrep=seq(31,40);
-    // defineConstant("burn_rep", sample(nrep, 1));
-
-    // <---------------- end for additions of long burnin <---------------------------
 
 	// neutral mutations
 	initializeMutationType("m1", 0.0, "f", 0);
@@ -124,26 +116,19 @@ function (o<Subpopulation>)SWI(integer $id)
 }
 
 
+
+// block s1: Used to open treeSeq file with core pop burn-in
 s1 1 late () {
+
+	// done to select a correct treeSeq file to start sims (burn in)
+	// burn in replicate number: 
+	// 								  1 - 200: 1e-8
+	//		 						201 - 400: 1e-9
+	//		 						401 - 600: 1e-7
+
 	if (rho == 1e-8){
 		if (rep > 100 & rep <= 200 ){
 			rep_file=(rep-100);
-		} else if (rep > 200 & rep  <= 300){
-		rep_file=(rep-200);
-		} else if (rep > 300 & rep  <= 400){
-		rep_file=(rep-300);
-		} else if (rep > 400 & rep  <= 500){
-		rep_file=(rep-400);
-		} else if (rep > 500 & rep  <= 600){
-		rep_file=(rep-500);
-		} else if (rep > 600  & rep <= 700){
-		rep_file=(rep-600);
-		} else if (rep > 700 & rep  <= 800){
-		rep_file=(rep-700);
-		} else if (rep > 800 & rep  <= 900){
-		rep_file=(rep-800);
-		} else if (rep > 900  & rep <= 1000){
-		rep_file=(rep-900);
 		} else{
 			rep_file=rep;
 		}
@@ -175,34 +160,18 @@ s1 1 late () {
 	cat("Finished loading burn-in tree file \n");
 }
 
-// s2 _burn_in_: late(){
-
-
-// 	// I want a list of the INDEX of the active populations	
-// 	actD = (sim.subpopulations.id);
-// 	actD=matrix(actD, ncol=1);
-
-// 	sizeD = sim.subpopulations.individualCount;
-// 	sizeD = matrix(sizeD, ncol=1);
-
-// 	numPop=length(sim.subpopulations.id);
-// 	gens=matrix(c(rep(sim.generation, numPop)),ncol=1);
-
-// 	tbl = matrix(c(gens, actD, sizeD), ncol=3);
- 
-// 	for (i in 0:(length(tbl)/3)){
-//     	if (i < (length(tbl)/3)){
-//     		writeFile(asString(out_pop_path + "/popSizes"+ "_"+ rep + ".txt"), paste(tbl[i,]), T);
-// 		} else {break;}
-// 	}
-// }
-
 
 //END OF BURN-IN PHASE
+// generation number is added with sed command after loading parameter file
+// s4 block: creates new deme at the correct time, with the num. of founders and they come from previous deme
 s4 _burn_in_: early () {
 	
 	if ((sim.generation % tg) == 0){
+//	if generation is divisible by the growth interval...
+//	add a new deme and colonize it from the previous deme
 
+//	j is the pop id number of the new deme to be created
+//	(((How many generations that have passed)/growth interval) + num. core demes + 1)
 		j = asInteger(((sim.generation-burn-100)/tg)+core+1);
 		
 		newPop = paste0("sim.addSubpop('p" +  j + "', founders);");
@@ -216,6 +185,7 @@ s4 _burn_in_: early () {
 	}
 }
 
+// block s5: set values to control sampling time; 
 s5 _burn_in_: late (){
 	
 	if (sim.generation % tg == 0){
@@ -224,6 +194,9 @@ s5 _burn_in_: late (){
 			sim.setValue("gen_plus_four", (sim.getValue("gen_to_samp")+4));
 			sim.setValue("gen_plus_two", (sim.getValue("gen_to_samp")+2));
 		} else {
+			// alternative growth time was 10; 
+			// thus sampling at the middle would be at: gen.it.was.created + 6,
+			// and in the end: gen.it.was.created + 9
 			end=9;
 			mid=6;
 			sim.setValue("gen_to_samp", sim.generation);
@@ -233,63 +206,45 @@ s5 _burn_in_: late (){
 	
 	}
 
-	// x1=sim.getValue("gen_to_samp");
-
-	// if (sim.generation == x1){
-	// 	idp=sim.subpopulations.id;
-	// 	i=(length(sim.subpopulations.id)-1);
-    // 	sampVCF=paste0("p"+ idp[i] +".outputVCFSample(" + num_samples + ", replace=F, outputMultiallelics=T, filePath='" + out_path +"/out_p" + idp[i] + "_gen_" + sim.generation + ".vcf', append= F);");
-    // 	executeLambda(sampVCF);
-	// }
-
 
 	if (sim.generation % tg == 0){
+		// id number of the created new deme
 		j = asInteger(((sim.generation-burn-100)/tg)+core+1);
 
-        size1 = asInteger(SWI(j).individualCount);
+		// set migration for next the generations between old edge and new edge deme
         SWI(j-1).setMigrationRates(SWI(j), migr);
         SWI(j).setMigrationRates(SWI(j-1), migr);
 
+		// record in sims memory, even after generation is over, new variables:
+		// generation new deme was created
+		// pop id of new deme
 		sim.setValue("ini", sim.generation);
 		sim.setValue("ppk", j);
+
+		// only for SLiM gui USE
         sim.subpopulations.individuals.color="yellow";
 	    sim.subpopulations.individuals[sim.subpopulations.individuals.migrant].color="blue";
 	}
 }
 
 
-// s66 _other_gens_:25030 late(){
-
-// 	x2=sim.getValue("gen_plus_four");
-// 	if (sim.generation == x2){
-// 		idp=sim.subpopulations.id;
-
-// 		// i=(length(sim.subpopulations.id)-1);
-//     	// sampVCF=paste0("p"+ idp[i] +".outputVCFSample(" + num_samples + ", replace=F, outputMultiallelics=T, filePath='" + out_path +"/out_p" + idp[i] + "_gen_" + sim.generation + ".vcf', append= F);");
-//     	// executeLambda(sampVCF);
-
-// 		z=(length(sim.subpopulations.id)-5);
-//     	sampVCF2=paste0("p"+ idp[z] +".outputVCFSample(" + num_samples + ", replace=F, outputMultiallelics=T, filePath='" + out_path +"/out_p" + idp[z] + "_gen_" + sim.generation + ".vcf', append= F);");
-//     	executeLambda(sampVCF2);
-// 	}
-// }
-
 
 s6 _other_gens_: late(){
 
+	// Whenever it is NOT time to create a new deme:
+
+	// Sample VCF 4 generations after the deme creation
 	x2=sim.getValue("gen_plus_four");
 	if (sim.generation == x2){
 		idp=sim.subpopulations.id;
-
-		// i=(length(sim.subpopulations.id)-1);
-    	// sampVCF=paste0("p"+ idp[i] +".outputVCFSample(" + num_samples + ", replace=F, outputMultiallelics=T, filePath='" + out_path +"/out_p" + idp[i] + "_gen_" + sim.generation + ".vcf', append= F);");
-    	// executeLambda(sampVCF);
 
 		z=(length(sim.subpopulations.id)-5);
     	sampVCF2=paste0("p"+ idp[z] +".outputVCFSample(" + num_samples + ", replace=F, outputMultiallelics=T, filePath='" + out_path +"/out_p" + idp[z] + "_gen_" + sim.generation + ".vcf', append= F);");
     	executeLambda(sampVCF2);
 	}
 
+
+	// Sample VCF after 2 gens it was created
 	x3=sim.getValue("gen_plus_two");
 	if (sim.generation == x3){
 		idp=sim.subpopulations.id;
@@ -299,13 +254,16 @@ s6 _other_gens_: late(){
     	executeLambda(sampVCF2);
 	}
 
+	// kct == gen.deme.was.created + growth.time + 1
 	kct = sim.getValue("ini") + tg + 1;
-	
+
+	// if it has not reached the time to create a new deme...
 	if (sim.generation <= kct) {
 
-
+		// get pop ID of the edge deme
 		pop = sim.getValue("ppk");
 
+		// calculate new pop size for the edge deme
         newSize = round(SWI(pop).individualCount * er1);
         cat("edge deme: " + pop + "\n");
         cat("NewSize: " + newSize + "\n");
@@ -313,14 +271,18 @@ s6 _other_gens_: late(){
         cat("IndividualCount: " + SWI(pop).individualCount + "\n");
         cat("------------------------- \n");
 
+		// if bellow Nmax...
 		if (newSize < maxN){
 
+			// change pop size to new size
 			SWI(pop).setSubpopulationSize(asInteger(newSize));
 
 		} else {
 
+			// change pop size to carrying capacity (Nmax)
             SWI(pop).setSubpopulationSize(maxN);
 
+			// colors for SLiM GUI
             sim.subpopulations.individuals.color="yellow";
 	        sim.subpopulations.individuals[sim.subpopulations.individuals.migrant].color="blue";
 
@@ -328,25 +290,42 @@ s6 _other_gens_: late(){
 	}
 }
 
-
+// kill oldest deme in the expansion (not the core, though)
 s7 _other_gens_: {
-	if (size(asString(sim.subpopulations.id)) > (2*core)){
-		idpop = sim.subpopulations.id;
 
+	// if there are too many demes...
+	if (size(asString(sim.subpopulations.id)) > (2*core)){
+		// a vector with all pop ids present in the sim
+		idpop = sim.subpopulations.id;
+	
+		// oldest expanding deme will be removed
+		// because SLiM is 0-based, using the core size as index does not remove the core, just the next oldest deme...
+		// needs to be indexed, since pop.id to kill changes all the time 
         SWI(idpop[core]).setSubpopulationSize(0);
 	}
 
 }
 
 
-
+// simulation end
 s8 _end_sim_ late(){
-	SWI(1).outputVCFSample(100, replace=F, outputMultiallelics=T, filePath=asString(out_path + "/out_gen_" + sim.generation + "p1_r" + rep + "re_run_.vcf"), append= F);
-	sim.outputUsage();
 
-	defineConstant("fim", clock());
-	duration = fim - start;
+	// output a VCF of the P1, 100 inds
+	SWI(1).outputVCFSample(100, replace=F, outputMultiallelics=T, filePath=asString(out_path + "/out_gen_" + sim.generation + "p1_r" + rep + "re_run_.vcf"), append= F);
+	
+	// output tree file of sim
 	// sim.treeSeqOutput(asString(out_path + "/out_gen_" + sim.generation + "_1D_" + (core) + "_r" + rep + "_final_generation.trees"));
+	
+	// output memory usage
+	sim.outputUsage();
+	
+	// clock constant
+	defineConstant("fim", clock());
+	
+	// calc duration of sim
+	duration = fim - start;
 	catn(asString("sim with total duration of " + duration));
+
+	// end simulation
 	sim.simulationFinished();
 }

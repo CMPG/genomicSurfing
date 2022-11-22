@@ -24,6 +24,9 @@
   - [2.7 trough asymmetry](#27-trough-asymmetry)
 - [3. Reference to the Figures](#3-reference-to-the-figures)
   - [3.1 Genome Scan and trough detection](#31-genome-scan-and-trough-detection)
+  - [3.2 calculate proportion of diversity loss](#32-calculate-proportion-of-diversity-loss)
+  - [3.3 Probability of identifying troughs considering local recombination rates](#33-probability-of-identifying-troughs-considering-local-recombination-rates)
+  - [3.4 Assymetry in troughs](#34-assymetry-in-troughs)
 
 <!-- /TOC -->
 
@@ -441,7 +444,49 @@ done
 
 ## 3.1 Genome Scan and trough detection
 
+![Figure1](https://raw.githubusercontent.com/CMPG/genomicSurfing/main/Figures/Figure1.png)
 
+> **Figure 1 in the main text**
+ 
+![Figure 2](https://raw.githubusercontent.com/CMPG/genomicSurfing/main/Figures/Figure2.png)
+
+> **Figure 2 in the main text**
+
+![Figure 3](https://raw.githubusercontent.com/CMPG/genomicSurfing/main/Figures/Figure3.png)
+
+> **Figure 3 in the main text**
+
+**Steps used**:
+- Allele counts (s02)
+- window the genome and calculate pi (s03)
+- find troughs (s04).
+
+## 3.2 calculate proportion of diversity loss
+
+![Figure 4](https://raw.githubusercontent.com/CMPG/genomicSurfing/main/Figures/Figure4.png)
+
+> **Figure 4 in the main text**
+
+**Steps used**:
+- Proportion of diversity loss (s07)
+
+## 3.3 Probability of identifying troughs considering local recombination rates
+
+![Figure 5](https://raw.githubusercontent.com/CMPG/genomicSurfing/main/Figures/Figure5.png)
+
+> **Figure 5 in the main text**
+
+**Steps used**:
+- permutation analysis (s06)
+
+## 3.4 Assymetry in troughs
+
+![Figure 6](https://raw.githubusercontent.com/CMPG/genomicSurfing/main/Figures/Figure6.png)
+
+> **Figure 6 in the main text**
+
+**Steps used**:
+- assymetry in troughs (s08)
 
 <!-- Figure 1 [[./Figures/MBE_SchlichtaF_Figure1_RGB.tiff]]
 
@@ -463,3 +508,5 @@ done
 ![alt text][logo]
 
 [logo]: https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png "Logo Title Text 2" -->
+
+<!-- [def]: https://raw.githubusercontent.com/CMPG/genomicSurfing/main/Figures/Figure1.png -->

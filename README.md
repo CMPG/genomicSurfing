@@ -3,24 +3,27 @@
 <!-- TOC -->
 
 - [How to run Simulations and analyse data](#how-to-run-simulations-and-analyse-data)
-- [Preparation](#preparation)
-    - [Order of actions](#order-of-actions)
-    - [Parameter files](#parameter-files)
-- [Simulations](#simulations)
-    - [Burn-in](#burn-in)
-    - [1D simulations](#1d-simulations)
-- [Data Analysis](#data-analysis)
-    - [Files organization](#files-organization)
-        - [Files used for each step:](#files-used-for-each-step)
-        - [Files description](#files-description)
-        - [order of things](#order-of-things)
-    - [Allele counts: per generation & per replicate](#allele-counts-per-generation--per-replicate)
-    - [Genome scan: window the genome and calculate pi](#genome-scan-window-the-genome-and-calculate-pi)
-    - [Map troughs based on a threshold](#map-troughs-based-on-a-threshold)
-        - [per replicate](#per-replicate)
-        - [combine files](#combine-files)
-    - [Convert diversity data to proportion lost](#convert-diversity-data-to-proportion-lost)
-    - [trough distribuitions depending on recombination landscape permutation](#trough-distribuitions-depending-on-recombination-landscape-permutation)
+- [0.0 Preparation](#00-preparation)
+  - [0.1 Order of actions](#01-order-of-actions)
+  - [0.2 Parameter files](#02-parameter-files)
+- [1. Simulations](#1-simulations)
+  - [1.1 Burn-in](#11-burn-in)
+  - [1.2 1D simulations](#12-1d-simulations)
+- [2. Data Analysis](#2-data-analysis)
+  - [2.1 Files organization](#21-files-organization)
+    - [2.1.1 Files used for each step:](#211-files-used-for-each-step)
+    - [2.1.2 Files description](#212-files-description)
+    - [2.1.3 order of things](#213-order-of-things)
+  - [2.2 Allele counts: per generation \& per replicate](#22-allele-counts-per-generation--per-replicate)
+  - [2.3 Genome scan: window the genome and calculate pi](#23-genome-scan-window-the-genome-and-calculate-pi)
+  - [2.4 Map troughs based on a threshold](#24-map-troughs-based-on-a-threshold)
+    - [2.4.1 per replicate](#241-per-replicate)
+    - [2.4.2 combine files](#242-combine-files)
+  - [2.5 Convert diversity data to proportion lost](#25-convert-diversity-data-to-proportion-lost)
+  - [2.6 trough distribuitions depending on recombination landscape (permutation)](#26-trough-distribuitions-depending-on-recombination-landscape-permutation)
+  - [2.7 trough asymmetry](#27-trough-asymmetry)
+- [3. Reference to the Figures](#3-reference-to-the-figures)
+  - [3.1 Genome Scan and trough detection](#31-genome-scan-and-trough-detection)
 
 <!-- /TOC -->
 
@@ -132,8 +135,9 @@ These steps below have to happen after steps 1-4, but not in any particular orde
 - 06_slurm_permutation.sh
 - 06_null_dist_troughs.R
 - 06_FUNCTIONS_null_dist_troughs.R
+- recMap_100k_m**.txt &rarr; recombination map file 
 
-**step 7**
+**step 7** (can only be run after step 6)
 - 08_asymmetry_in_troughs.R
 - 08_slurm_trough_asymmetry.sh
 - 08_FUNCTIONS_asymmetry_in_troughs.R
@@ -168,6 +172,21 @@ These steps below have to happen after steps 1-4, but not in any particular orde
    | 26251 | 36251 | 10000 | 31251   | 5   |
    | 33751 | 43751 | 10000 | 38751   | 6   |
    | 41251 | 51251 | 10000 | 46251   | 7   |
+
+
+
+- `recMap_100k_m**.txt` &rarr; `**`: identifier of type of map
+
+
+   | iniPOS  | endPOS  | rec.rate    | chunk id |
+   | ------- | ------- | ----------- | -------- |
+   | 0       | 299999  | 0.000000001 | 1        |
+   | 300000  | 899999  | 0.00000001  | 2        |
+   | 900000  | 999999  | 0.0000001   | 3        |
+   | 1000000 | 1299999 | 0.000000001 | 4        |
+   | 1300000 | 1899999 | 0.00000001  | 5        |
+   | 1900000 | 1999999 | 0.0000001   | 6        |
+
 
 
 
@@ -364,9 +383,6 @@ done
 ```
 
 
-
-
-
 Resulting file:
 
 `proba_rec_rate_in_troughs_lvl`**troughThresholdAsPercentage**`_`**completeModelName**`_`**sampleSize**`inds_win_`**windowsize**`k_r`**rep**`.txt`
@@ -391,3 +407,59 @@ Resulting file:
 | 25003 | 4    | 132 | 1.66954370533259e-08 | 1.65147443650357e-08 | TRUE                | 1.80692688290289e-10 |
 | 25003 | 4    | 132 | 1.68642550852116e-08 | 1.65147443650357e-08 | TRUE                | 3.49510720175962e-10 |
 
+
+
+## 2.7 trough asymmetry
+
+```bash
+lvl=10
+mod_prefix="1d_c5_l100_d100"
+samp=10
+winsize="10k"
+main_dir="${HOME}/${USER}/recMap_fwd_RangeExpansion"
+mod_tail="recMap_100k"
+minRecRegionLength=200
+# mapType="m4"
+# mapType="m6"
+mapType="m7"
+mod_sufix_LIST=("f20_m10_g5")
+
+for mod_sufix in "${mod_sufix_LIST[@]}"; do
+  echo ${mod_sufix}
+
+  cd ${main_dir}/${mod_prefix}_${mod_sufix}_${mod_tail}_${mapType}
+  
+  echo ${PWD}
+
+  mkdir -p results_asymmetry_${winsize}
+ 
+  sbatch --array=1-200 08_slurm_trough_asymmetry.sh ${lvl} ${mod_prefix} ${samp} ${winsize} ${mod_sufix} ${mapType} ${minRecRegionLength}
+done
+```
+
+# 3. Reference to the Figures
+
+## 3.1 Genome Scan and trough detection
+
+
+
+<!-- Figure 1 [[./Figures/MBE_SchlichtaF_Figure1_RGB.tiff]]
+
+:::image source="./Figures/MBE_SchlichtaF_Figure1_RGB.tiff":::
+
+
+![Figure 1][test]
+
+
+[test]: Figures/MBE_SchlichtaF_Figure1_RGB.png "testesttest"
+
+
+![Figure 1](genomicSurfing/Figures/MBE_SchlichtaF_Figure1_RGB_Figure1.tif)
+
+
+![MBE_SchlichtaF_Figure1_RGB_Figure1](/assets/MBE_SchlichtaF_Figure1_RGB_Figure1.tif) -->
+
+<!-- 
+![alt text][logo]
+
+[logo]: https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png "Logo Title Text 2" -->

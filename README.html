@@ -1,0 +1,866 @@
+<!DOCTYPE html><html><head>
+      <title>README</title>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.3/dist/katex.min.css">
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      <style>
+      /**
+ * prism.js Github theme based on GitHub's theme.
+ * @author Sam Clarke
+ */
+code[class*="language-"],
+pre[class*="language-"] {
+  color: #333;
+  background: none;
+  font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
+  text-align: left;
+  white-space: pre;
+  word-spacing: normal;
+  word-break: normal;
+  word-wrap: normal;
+  line-height: 1.4;
+
+  -moz-tab-size: 8;
+  -o-tab-size: 8;
+  tab-size: 8;
+
+  -webkit-hyphens: none;
+  -moz-hyphens: none;
+  -ms-hyphens: none;
+  hyphens: none;
+}
+
+/* Code blocks */
+pre[class*="language-"] {
+  padding: .8em;
+  overflow: auto;
+  /* border: 1px solid #ddd; */
+  border-radius: 3px;
+  /* background: #fff; */
+  background: #f5f5f5;
+}
+
+/* Inline code */
+:not(pre) > code[class*="language-"] {
+  padding: .1em;
+  border-radius: .3em;
+  white-space: normal;
+  background: #f5f5f5;
+}
+
+.token.comment,
+.token.blockquote {
+  color: #969896;
+}
+
+.token.cdata {
+  color: #183691;
+}
+
+.token.doctype,
+.token.punctuation,
+.token.variable,
+.token.macro.property {
+  color: #333;
+}
+
+.token.operator,
+.token.important,
+.token.keyword,
+.token.rule,
+.token.builtin {
+  color: #a71d5d;
+}
+
+.token.string,
+.token.url,
+.token.regex,
+.token.attr-value {
+  color: #183691;
+}
+
+.token.property,
+.token.number,
+.token.boolean,
+.token.entity,
+.token.atrule,
+.token.constant,
+.token.symbol,
+.token.command,
+.token.code {
+  color: #0086b3;
+}
+
+.token.tag,
+.token.selector,
+.token.prolog {
+  color: #63a35c;
+}
+
+.token.function,
+.token.namespace,
+.token.pseudo-element,
+.token.class,
+.token.class-name,
+.token.pseudo-class,
+.token.id,
+.token.url-reference .token.variable,
+.token.attr-name {
+  color: #795da3;
+}
+
+.token.entity {
+  cursor: help;
+}
+
+.token.title,
+.token.title .token.punctuation {
+  font-weight: bold;
+  color: #1d3e81;
+}
+
+.token.list {
+  color: #ed6a43;
+}
+
+.token.inserted {
+  background-color: #eaffea;
+  color: #55a532;
+}
+
+.token.deleted {
+  background-color: #ffecec;
+  color: #bd2c00;
+}
+
+.token.bold {
+  font-weight: bold;
+}
+
+.token.italic {
+  font-style: italic;
+}
+
+
+/* JSON */
+.language-json .token.property {
+  color: #183691;
+}
+
+.language-markup .token.tag .token.punctuation {
+  color: #333;
+}
+
+/* CSS */
+code.language-css,
+.language-css .token.function {
+  color: #0086b3;
+}
+
+/* YAML */
+.language-yaml .token.atrule {
+  color: #63a35c;
+}
+
+code.language-yaml {
+  color: #183691;
+}
+
+/* Ruby */
+.language-ruby .token.function {
+  color: #333;
+}
+
+/* Markdown */
+.language-markdown .token.url {
+  color: #795da3;
+}
+
+/* Makefile */
+.language-makefile .token.symbol {
+  color: #795da3;
+}
+
+.language-makefile .token.variable {
+  color: #183691;
+}
+
+.language-makefile .token.builtin {
+  color: #0086b3;
+}
+
+/* Bash */
+.language-bash .token.keyword {
+  color: #0086b3;
+}
+
+/* highlight */
+pre[data-line] {
+  position: relative;
+  padding: 1em 0 1em 3em;
+}
+pre[data-line] .line-highlight-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: transparent;
+  display: block;
+  width: 100%;
+}
+
+pre[data-line] .line-highlight {
+  position: absolute;
+  left: 0;
+  right: 0;
+  padding: inherit 0;
+  margin-top: 1em;
+  background: hsla(24, 20%, 50%,.08);
+  background: linear-gradient(to right, hsla(24, 20%, 50%,.1) 70%, hsla(24, 20%, 50%,0));
+  pointer-events: none;
+  line-height: inherit;
+  white-space: pre;
+}
+
+pre[data-line] .line-highlight:before, 
+pre[data-line] .line-highlight[data-end]:after {
+  content: attr(data-start);
+  position: absolute;
+  top: .4em;
+  left: .6em;
+  min-width: 1em;
+  padding: 0 .5em;
+  background-color: hsla(24, 20%, 50%,.4);
+  color: hsl(24, 20%, 95%);
+  font: bold 65%/1.5 sans-serif;
+  text-align: center;
+  vertical-align: .3em;
+  border-radius: 999px;
+  text-shadow: none;
+  box-shadow: 0 1px white;
+}
+
+pre[data-line] .line-highlight[data-end]:after {
+  content: attr(data-end);
+  top: auto;
+  bottom: .4em;
+}html body{font-family:"Helvetica Neue",Helvetica,"Segoe UI",Arial,freesans,sans-serif;font-size:16px;line-height:1.6;color:#333;background-color:#fff;overflow:initial;box-sizing:border-box;word-wrap:break-word}html body>:first-child{margin-top:0}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{line-height:1.2;margin-top:1em;margin-bottom:16px;color:#000}html body h1{font-size:2.25em;font-weight:300;padding-bottom:.3em}html body h2{font-size:1.75em;font-weight:400;padding-bottom:.3em}html body h3{font-size:1.5em;font-weight:500}html body h4{font-size:1.25em;font-weight:600}html body h5{font-size:1.1em;font-weight:600}html body h6{font-size:1em;font-weight:600}html body h1,html body h2,html body h3,html body h4,html body h5{font-weight:600}html body h5{font-size:1em}html body h6{color:#5c5c5c}html body strong{color:#000}html body del{color:#5c5c5c}html body a:not([href]){color:inherit;text-decoration:none}html body a{color:#08c;text-decoration:none}html body a:hover{color:#00a3f5;text-decoration:none}html body img{max-width:100%}html body>p{margin-top:0;margin-bottom:16px;word-wrap:break-word}html body>ul,html body>ol{margin-bottom:16px}html body ul,html body ol{padding-left:2em}html body ul.no-list,html body ol.no-list{padding:0;list-style-type:none}html body ul ul,html body ul ol,html body ol ol,html body ol ul{margin-top:0;margin-bottom:0}html body li{margin-bottom:0}html body li.task-list-item{list-style:none}html body li>p{margin-top:0;margin-bottom:0}html body .task-list-item-checkbox{margin:0 .2em .25em -1.8em;vertical-align:middle}html body .task-list-item-checkbox:hover{cursor:pointer}html body blockquote{margin:16px 0;font-size:inherit;padding:0 15px;color:#5c5c5c;background-color:#f0f0f0;border-left:4px solid #d6d6d6}html body blockquote>:first-child{margin-top:0}html body blockquote>:last-child{margin-bottom:0}html body hr{height:4px;margin:32px 0;background-color:#d6d6d6;border:0 none}html body table{margin:10px 0 15px 0;border-collapse:collapse;border-spacing:0;display:block;width:100%;overflow:auto;word-break:normal;word-break:keep-all}html body table th{font-weight:bold;color:#000}html body table td,html body table th{border:1px solid #d6d6d6;padding:6px 13px}html body dl{padding:0}html body dl dt{padding:0;margin-top:16px;font-size:1em;font-style:italic;font-weight:bold}html body dl dd{padding:0 16px;margin-bottom:16px}html body code{font-family:Menlo,Monaco,Consolas,'Courier New',monospace;font-size:.85em !important;color:#000;background-color:#f0f0f0;border-radius:3px;padding:.2em 0}html body code::before,html body code::after{letter-spacing:-0.2em;content:"\00a0"}html body pre>code{padding:0;margin:0;font-size:.85em !important;word-break:normal;white-space:pre;background:transparent;border:0}html body .highlight{margin-bottom:16px}html body .highlight pre,html body pre{padding:1em;overflow:auto;font-size:.85em !important;line-height:1.45;border:#d6d6d6;border-radius:3px}html body .highlight pre{margin-bottom:0;word-break:normal}html body pre code,html body pre tt{display:inline;max-width:initial;padding:0;margin:0;overflow:initial;line-height:inherit;word-wrap:normal;background-color:transparent;border:0}html body pre code:before,html body pre tt:before,html body pre code:after,html body pre tt:after{content:normal}html body p,html body blockquote,html body ul,html body ol,html body dl,html body pre{margin-top:0;margin-bottom:16px}html body kbd{color:#000;border:1px solid #d6d6d6;border-bottom:2px solid #c7c7c7;padding:2px 4px;background-color:#f0f0f0;border-radius:3px}@media print{html body{background-color:#fff}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{color:#000;page-break-after:avoid}html body blockquote{color:#5c5c5c}html body pre{page-break-inside:avoid}html body table{display:table}html body img{display:block;max-width:100%;max-height:100%}html body pre,html body code{word-wrap:break-word;white-space:pre}}.markdown-preview{width:100%;height:100%;box-sizing:border-box}.markdown-preview .pagebreak,.markdown-preview .newpage{page-break-before:always}.markdown-preview pre.line-numbers{position:relative;padding-left:3.8em;counter-reset:linenumber}.markdown-preview pre.line-numbers>code{position:relative}.markdown-preview pre.line-numbers .line-numbers-rows{position:absolute;pointer-events:none;top:1em;font-size:100%;left:0;width:3em;letter-spacing:-1px;border-right:1px solid #999;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.markdown-preview pre.line-numbers .line-numbers-rows>span{pointer-events:none;display:block;counter-increment:linenumber}.markdown-preview pre.line-numbers .line-numbers-rows>span:before{content:counter(linenumber);color:#999;display:block;padding-right:.8em;text-align:right}.markdown-preview .mathjax-exps .MathJax_Display{text-align:center !important}.markdown-preview:not([for="preview"]) .code-chunk .btn-group{display:none}.markdown-preview:not([for="preview"]) .code-chunk .status{display:none}.markdown-preview:not([for="preview"]) .code-chunk .output-div{margin-bottom:16px}.scrollbar-style::-webkit-scrollbar{width:8px}.scrollbar-style::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}.scrollbar-style::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,0.66);border:4px solid rgba(150,150,150,0.66);background-clip:content-box}html body[for="html-export"]:not([data-presentation-mode]){position:relative;width:100%;height:100%;top:0;left:0;margin:0;padding:0;overflow:auto}html body[for="html-export"]:not([data-presentation-mode]) .markdown-preview{position:relative;top:0}@media screen and (min-width:914px){html body[for="html-export"]:not([data-presentation-mode]) .markdown-preview{padding:2em calc(50% - 457px + 2em)}}@media screen and (max-width:914px){html body[for="html-export"]:not([data-presentation-mode]) .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for="html-export"]:not([data-presentation-mode]) .markdown-preview{font-size:14px !important;padding:1em}}@media print{html body[for="html-export"]:not([data-presentation-mode]) #sidebar-toc-btn{display:none}}html body[for="html-export"]:not([data-presentation-mode]) #sidebar-toc-btn{position:fixed;bottom:8px;left:8px;font-size:28px;cursor:pointer;color:inherit;z-index:99;width:32px;text-align:center;opacity:.4}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] #sidebar-toc-btn{opacity:1}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc{position:fixed;top:0;left:0;width:300px;height:100%;padding:32px 0 48px 0;font-size:14px;box-shadow:0 0 4px rgba(150,150,150,0.33);box-sizing:border-box;overflow:auto;background-color:inherit}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar{width:8px}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,0.66);border:4px solid rgba(150,150,150,0.66);background-clip:content-box}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc a{text-decoration:none}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc ul{padding:0 1.6em;margin-top:.8em}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc li{margin-bottom:.8em}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc ul{list-style-type:none}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{left:300px;width:calc(100% -  300px);padding:2em calc(50% - 457px -  150px);margin:0;box-sizing:border-box}@media screen and (max-width:1274px){html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{width:100%}}html body[for="html-export"]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .markdown-preview{left:50%;transform:translateX(-50%)}html body[for="html-export"]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .md-sidebar-toc{display:none}
+/* Please visit the URL below for more information: */
+/*   https://shd101wyy.github.io/markdown-preview-enhanced/#/customize-css */
+
+      </style>
+    </head>
+    <body for="html-export">
+      <div class="mume markdown-preview  ">
+      <h1 class="mume-header" id="how-to-run-simulations-and-analyse-data">How to run Simulations and analyse data</h1>
+
+<ul>
+<li><a href="#how-to-run-simulations-and-analyse-data">How to run Simulations and analyse data</a></li>
+<li><a href="#00-preparation">0.0 Preparation</a>
+<ul>
+<li><a href="#01-order-of-actions">0.1 Order of actions</a></li>
+<li><a href="#02-parameter-files">0.2 Parameter files</a></li>
+</ul>
+</li>
+<li><a href="#1-simulations">1. Simulations</a>
+<ul>
+<li><a href="#11-burn-in">1.1 Burn-in</a></li>
+<li><a href="#12-1d-simulations">1.2 1D simulations</a></li>
+</ul>
+</li>
+<li><a href="#2-data-analysis">2. Data Analysis</a>
+<ul>
+<li><a href="#21-files-organization">2.1 Files organization</a>
+<ul>
+<li><a href="#211-files-used-for-each-step">2.1.1 Files used for each step:</a></li>
+<li><a href="#212-files-description">2.1.2 Files description</a></li>
+<li><a href="#213-order-of-things">2.1.3 order of things</a></li>
+</ul>
+</li>
+<li><a href="#22-allele-counts-per-generation--per-replicate">2.2 Allele counts: per generation &amp; per replicate</a></li>
+<li><a href="#23-genome-scan-window-the-genome-and-calculate-pi">2.3 Genome scan: window the genome and calculate pi</a></li>
+<li><a href="#24-map-troughs-based-on-a-threshold">2.4 Map troughs based on a threshold</a>
+<ul>
+<li><a href="#241-per-replicate">2.4.1 per replicate</a></li>
+<li><a href="#242-combine-files">2.4.2 combine files</a></li>
+</ul>
+</li>
+<li><a href="#25-convert-diversity-data-to-proportion-lost">2.5 Convert diversity data to proportion lost</a></li>
+<li><a href="#26-trough-distribuitions-depending-on-recombination-landscape-permutation">2.6 trough distribuitions depending on recombination landscape (permutation)</a></li>
+<li><a href="#27-trough-asymmetry">2.7 trough asymmetry</a></li>
+</ul>
+</li>
+<li><a href="#3-reference-to-the-figures">3. Reference to the Figures</a>
+<ul>
+<li><a href="#31-genome-scan-and-trough-detection">3.1 Genome Scan and trough detection</a></li>
+</ul>
+</li>
+</ul>
+<h1 class="mume-header" id="00-preparation">0.0 Preparation</h1>
+
+<h2 class="mume-header" id="01-order-of-actions">0.1 Order of actions</h2>
+
+<ol>
+<li><strong>create new folder</strong>: <code>${HOME}/${USER}/fwd_RangeExpansion</code></li>
+<li><strong>create parameter files</strong> (for example: <code>params_1d_c5_e5_l100_d100_f30_m10_g5.sh</code>) and <strong>put it in a subfolder</strong>: <code>${HOME}/${USER}/fwd_RangeExpansion/param_files</code></li>
+<li><strong>run simulations</strong></li>
+</ol>
+<p><a href="#how-to-run-simulations-and-analyse-data">back to top &#x2191;</a></p>
+<h2 class="mume-header" id="02-parameter-files">0.2 Parameter files</h2>
+
+<ul>
+<li><code>chrL</code>: genome length in bp</li>
+<li><code>mu</code>: mutation rate</li>
+<li><code>rho</code>: recombination rate</li>
+<li><code>core</code>: number of demes at the core</li>
+<li><code>maxN</code>: carrying capacity (max num. inds)</li>
+<li><code>mig</code>: migration rate in decimal (SLiM way of defining migration)</li>
+<li><code>tgrw</code>: time to reach caryying capacity</li>
+<li><code>r1</code>:</li>
+<li><code>ert1</code>: growth factor at each generation</li>
+<li><code>burn</code>: last generation of burn in tree file</li>
+<li><code>aftgen</code>: generation to start expansion</li>
+<li><code>end</code>: last expansion generation</li>
+<li><code>Fndrs</code>: number of founders</li>
+</ul>
+<p><a href="#how-to-run-simulations-and-analyse-data">back to top &#x2191;</a></p>
+<h1 class="mume-header" id="1-simulations">1. Simulations</h1>
+
+<h2 class="mume-header" id="11-burn-in">1.1 Burn-in</h2>
+
+<p><a href="#how-to-run-simulations-and-analyse-data">back to top &#x2191;</a></p>
+<h2 class="mume-header" id="12-1d-simulations">1.2 1D simulations</h2>
+
+<pre data-role="codeBlock" data-info="sh" class="language-bash"><span class="token comment"># replicates ID numbers</span>
+<span class="token assign-left variable">from</span><span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">;</span> <span class="token assign-left variable">to</span><span class="token operator">=</span><span class="token number">200</span><span class="token punctuation">;</span>
+<span class="token assign-left variable">model_prefix</span><span class="token operator">=</span><span class="token string">&quot;1d_c5_e5_l100_d100&quot;</span>
+<span class="token assign-left variable">model_sufix</span><span class="token operator">=</span><span class="token string">&quot;f20_m10_g5 10&quot;</span>
+<span class="token assign-left variable">number_of_samples</span><span class="token operator">=</span><span class="token number">10</span>
+
+<span class="token builtin class-name">cd</span> <span class="token variable">${<span class="token environment constant">HOME</span>}</span>/<span class="token variable">${<span class="token environment constant">USER</span>}</span>/fwd_RangeExpansion
+<span class="token function">mkdir</span> -p log_sim
+sbatch --array<span class="token operator">=</span><span class="token variable">${from}</span>-<span class="token variable">${to}</span> 01_slurm_run_model_vcf.sh <span class="token variable">${model_sufix}</span> <span class="token variable">${model_prefix}</span> <span class="token variable">${number_of_samples}</span>
+
+</pre><p>This code will:</p>
+<ul>
+<li>make new folder named: <code>$prefix_$sufix</code></li>
+<li>copy files to model folder:
+<ul>
+<li><code>params_$prefix_$sufix.sh</code></li>
+<li><code>01_run_model_vcf.sh</code></li>
+<li><code>01_1D_range_exp_vcf.slim</code></li>
+</ul>
+</li>
+<li>create replicate number subfolders (based on array command from SLURM)</li>
+<li>copy slim file to replicate folder (<code>01_1D_range_exp_vcf.slim</code>)</li>
+<li>creates SLiM log file: <code>vcf_end_slim_**.output</code> (<code>**</code>: replicate number)</li>
+<li>run sims in SLiM:
+<ul>
+<li>output files: <code>out_p*_gen_2500*_n*.vcf.gz</code>. <code>*</code> in order: (1) population ID; (2) generation; (3) sample size;</li>
+<li>samping frequency is defined in SLiM script, depending on the need. Normally based on variables <code>tg</code> (slim script); <code>tgrw</code> (param file), which define time to reach carrying capacity (from founders to Nmax).</li>
+</ul>
+</li>
+</ul>
+<p><a href="#how-to-run-simulations-and-analyse-data">back to top &#x2191;</a></p>
+<h1 class="mume-header" id="2-data-analysis">2. Data Analysis</h1>
+
+<p>blabla<br>
+<a href="#how-to-run-simulations-and-analyse-data">back to top &#x2191;</a></p>
+<h2 class="mume-header" id="21-files-organization">2.1 Files organization</h2>
+
+<h3 class="mume-header" id="211-files-used-for-each-step">2.1.1 Files used for each step:</h3>
+
+<p><strong>several steps</strong></p>
+<ul>
+<li>samp_edge_demes_1D_10.txt</li>
+<li>10k_win_coord.csv</li>
+<li>FUNCTIONS_1D_2D_PLOTS.R</li>
+</ul>
+<p><strong>step 2</strong></p>
+<ul>
+<li>02_get_allele_counts_for_pi_calcul.sh</li>
+<li>02_slurm_get_allele_counts_for_pi_calcul.sh</li>
+</ul>
+<p><strong>step 3</strong></p>
+<ul>
+<li>03_SLURM_Get_Pi_Profile.sh</li>
+<li>03b_SLURM_conCAT_replicate_files.sh</li>
+<li>03_FUNCTIONS_Get_Pi_Profile.R</li>
+<li>03_Get_Pi_Profile.R</li>
+</ul>
+<p><strong>step 4</strong></p>
+<ul>
+<li>04b_slurm_ConCat_trough_files.sh</li>
+<li>04a_slurm_get_troughs_per_replicate.sh</li>
+<li>04a_get_troughs_per_replicate.R</li>
+<li>04_FUNCTIONS_get_troughs_per_replicate.R</li>
+</ul>
+<p>These steps below have to happen after steps 1-4, but not in any particular order:</p>
+<p><strong>step 5</strong></p>
+<ul>
+<li>07_convert_time_to_diversity_loss.R</li>
+<li>07_slurm_convert_time_to_diversity_loss.sh</li>
+</ul>
+<p><strong>step 6</strong></p>
+<ul>
+<li>06_slurm_permutation.sh</li>
+<li>06_null_dist_troughs.R</li>
+<li>06_FUNCTIONS_null_dist_troughs.R</li>
+<li>recMap_100k_m**.txt &#x2192; recombination map file</li>
+</ul>
+<p><strong>step 7</strong> (can only be run after step 6)</p>
+<ul>
+<li>08_asymmetry_in_troughs.R</li>
+<li>08_slurm_trough_asymmetry.sh</li>
+<li>08_FUNCTIONS_asymmetry_in_troughs.R</li>
+</ul>
+<p><a href="#how-to-run-simulations-and-analyse-data">back to top &#x2191;</a></p>
+<h3 class="mume-header" id="212-files-description">2.1.2 Files description</h3>
+
+<ul>
+<li>
+<p><code>samp_edge_demes_1D_**.txt</code> &#x2192; <code>**</code>: number of samples; no header &amp; space delimited;</p>
+<table>
+<thead>
+<tr>
+<th>generation</th>
+<th>pop id</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>25002</td>
+<td>6</td>
+</tr>
+<tr>
+<td>25007</td>
+<td>7</td>
+</tr>
+<tr>
+<td>25012</td>
+<td>8</td>
+</tr>
+<tr>
+<td>25017</td>
+<td>9</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p><code>**k_win_coord.csv</code> &#x2192; <code>**</code>: window size in kb, e.g. 10; with header and comma separated</p>
+<table>
+<thead>
+<tr>
+<th>ini</th>
+<th>end</th>
+<th>wsize</th>
+<th>mid_win</th>
+<th>id</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>18751</td>
+<td>28751</td>
+<td>10000</td>
+<td>23751</td>
+<td>4</td>
+</tr>
+<tr>
+<td>26251</td>
+<td>36251</td>
+<td>10000</td>
+<td>31251</td>
+<td>5</td>
+</tr>
+<tr>
+<td>33751</td>
+<td>43751</td>
+<td>10000</td>
+<td>38751</td>
+<td>6</td>
+</tr>
+<tr>
+<td>41251</td>
+<td>51251</td>
+<td>10000</td>
+<td>46251</td>
+<td>7</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p><code>recMap_100k_m**.txt</code> &#x2192; <code>**</code>: identifier of type of map</p>
+<table>
+<thead>
+<tr>
+<th>iniPOS</th>
+<th>endPOS</th>
+<th>rec.rate</th>
+<th>chunk id</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>299999</td>
+<td>0.000000001</td>
+<td>1</td>
+</tr>
+<tr>
+<td>300000</td>
+<td>899999</td>
+<td>0.00000001</td>
+<td>2</td>
+</tr>
+<tr>
+<td>900000</td>
+<td>999999</td>
+<td>0.0000001</td>
+<td>3</td>
+</tr>
+<tr>
+<td>1000000</td>
+<td>1299999</td>
+<td>0.000000001</td>
+<td>4</td>
+</tr>
+<tr>
+<td>1300000</td>
+<td>1899999</td>
+<td>0.00000001</td>
+<td>5</td>
+</tr>
+<tr>
+<td>1900000</td>
+<td>1999999</td>
+<td>0.0000001</td>
+<td>6</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+<p><a href="#how-to-run-simulations-and-analyse-data">back to top &#x2191;</a></p>
+<h3 class="mume-header" id="213-order-of-things">2.1.3 order of things</h3>
+
+<ol>
+<li><code>cd</code> to model folder</li>
+<li>make a sub folder: <code>sim_files</code></li>
+<li>move all replicate folders into <code>sim_files</code></li>
+<li>copy all analysis files to model folder</li>
+<li>run scripts in order (see below)</li>
+</ol>
+<p><a href="#how-to-run-simulations-and-analyse-data">back to top &#x2191;</a></p>
+<h2 class="mume-header" id="22-allele-counts-per-generation-per-replicate">2.2 Allele counts: per generation &amp; per replicate</h2>
+
+<pre data-role="codeBlock" data-info="sh" class="language-bash"><span class="token assign-left variable">dir</span><span class="token operator">=</span><span class="token variable">${<span class="token environment constant">HOME</span>}</span>/<span class="token variable">${sim_type}</span>/<span class="token variable">${model}</span>
+<span class="token builtin class-name">cd</span> <span class="token variable">${dir}</span>
+<span class="token builtin class-name">printf</span> <span class="token string">&quot;cd <span class="token variable">${dir}</span><span class="token entity" title="\n">\n</span>&quot;</span>
+
+<span class="token function">mkdir</span> -p log_allele_count
+
+<span class="token builtin class-name">printf</span> <span class="token string">&quot;# <span class="token environment constant">$PWD</span> <span class="token entity" title="\n">\n</span>&quot;</span>
+
+<span class="token assign-left variable">sim_type</span><span class="token operator">=</span><span class="token string">&quot;fwd_RangeExpansion&quot;</span><span class="token punctuation">;</span><span class="token comment"># defines the parent folder for a single spacial dist (1D or 2D) </span>
+<span class="token assign-left variable">opt_s02</span><span class="token operator">=</span><span class="token number">3</span><span class="token punctuation">;</span><span class="token comment"># defines location of sampling file</span>
+<span class="token assign-left variable">mprefix</span><span class="token operator">=</span><span class="token string">&quot;1d_c5_e5_l100_d100&quot;</span>
+<span class="token assign-left variable">msufix</span><span class="token operator">=</span><span class="token string">&quot;f20_m10_g5&quot;</span>
+<span class="token assign-left variable">model</span><span class="token operator">=</span><span class="token variable">${mprefix}</span>_<span class="token variable">${msufix}</span>
+<span class="token assign-left variable">smp_file</span><span class="token operator">=</span><span class="token string">&quot;10&quot;</span>
+<span class="token assign-left variable">script_02</span><span class="token operator">=</span>02_slurm_get_allele_counts_for_pi_calcul.sh
+
+<span class="token builtin class-name">printf</span> <span class="token string">&quot;sbatch --array=<span class="token variable">${list_reps}</span> <span class="token variable">${script_02}</span> <span class="token variable">${sim_type}</span> <span class="token variable">${opt_s02}</span> <span class="token variable">${model}</span> <span class="token variable">${smp_file}</span> <span class="token entity" title="\n">\n</span>&quot;</span>
+
+sbatch --array<span class="token operator">=</span><span class="token variable">${list_reps}</span> <span class="token variable">${script_02}</span> <span class="token variable">${sim_type}</span> <span class="token variable">${opt_s02}</span> <span class="token variable">${model}</span> <span class="token variable">${smp_file}</span>
+
+</pre><p><strong>example command line</strong>: <code>sbatch --array=1-200 $script fwd_RangeExpansion 3 $model 10</code></p>
+<p><a href="#how-to-run-simulations-and-analyse-data">back to top &#x2191;</a></p>
+<h2 class="mume-header" id="23-genome-scan-window-the-genome-and-calculate-pi">2.3 Genome scan: window the genome and calculate pi</h2>
+
+<pre data-role="codeBlock" data-info="sh" class="language-bash"><span class="token assign-left variable">dir</span><span class="token operator">=</span><span class="token variable">${<span class="token environment constant">HOME</span>}</span>/<span class="token variable">${sim_type}</span>/<span class="token variable">${model}</span>
+<span class="token builtin class-name">cd</span> <span class="token variable">${dir}</span>
+<span class="token builtin class-name">printf</span> <span class="token string">&quot;cd <span class="token variable">${dir}</span><span class="token entity" title="\n">\n</span>&quot;</span>
+
+<span class="token function">mkdir</span> -p log_get_pi
+
+
+<span class="token assign-left variable">mprefix</span><span class="token operator">=</span><span class="token string">&quot;1d_c5_e5_l100_d100&quot;</span>
+<span class="token assign-left variable">msufix</span><span class="token operator">=</span><span class="token string">&quot;f20_m10_g5&quot;</span>
+<span class="token assign-left variable">model</span><span class="token operator">=</span><span class="token variable">${mprefix}</span>_<span class="token variable">${msufix}</span>
+
+<span class="token assign-left variable">founders</span><span class="token operator">=</span><span class="token number">20</span>
+<span class="token assign-left variable">migration</span><span class="token operator">=</span><span class="token number">10</span>
+<span class="token assign-left variable">growth</span><span class="token operator">=</span><span class="token number">5</span>
+<span class="token assign-left variable">samples</span><span class="token operator">=</span><span class="token number">10</span>
+<span class="token assign-left variable">windows</span><span class="token operator">=</span><span class="token string">&quot;10k&quot;</span>
+
+<span class="token assign-left variable">active</span><span class="token operator">=</span>T
+<span class="token assign-left variable">old_demes</span><span class="token operator">=</span>F
+<span class="token assign-left variable">smp_file</span><span class="token operator">=</span><span class="token string">&quot;10&quot;</span>
+
+
+<span class="token assign-left variable">script_s03</span><span class="token operator">=</span>03_SLURM_Get_Pi_Profile.sh
+
+<span class="token builtin class-name">printf</span> <span class="token string">&quot;<span class="token variable">${founders}</span> <span class="token variable">${migration}</span> <span class="token variable">${growth}</span> <span class="token variable">${samples}</span> <span class="token variable">${active}</span> <span class="token variable">${old_demes}</span> <span class="token variable">${windows}</span> <span class="token variable">${smp_file}</span> <span class="token entity" title="\n">\n</span>&quot;</span>
+
+sbatch --array<span class="token operator">=</span><span class="token variable">${list_reps}</span> <span class="token variable">${script_s03}</span> <span class="token variable">${founders}</span> <span class="token variable">${migration}</span> <span class="token variable">${growth}</span> <span class="token variable">${samples}</span> <span class="token variable">${active}</span> <span class="token variable">${old_demes}</span> <span class="token variable">${windows}</span> <span class="token variable">${smp_file}</span>
+</pre><p><strong>example command line</strong>: <code>sbatch --array=1-200 $script 20 10 5 10 T F 10k 10</code></p>
+<p><a href="#how-to-run-simulations-and-analyse-data">back to top &#x2191;</a></p>
+<h2 class="mume-header" id="24-map-troughs-based-on-a-threshold">2.4 Map troughs based on a threshold</h2>
+
+<h3 class="mume-header" id="241-per-replicate">2.4.1 per replicate</h3>
+
+<pre data-role="codeBlock" data-info="sh" class="language-bash"><span class="token function">mkdir</span> -p log_files
+<span class="token assign-left variable">level</span><span class="token operator">=</span><span class="token number">0.1</span>
+<span class="token assign-left variable">samples</span><span class="token operator">=</span><span class="token number">10</span>
+
+
+
+<span class="token assign-left variable">mprefix</span><span class="token operator">=</span><span class="token string">&quot;1d_c5_e5_l100_d100&quot;</span>
+<span class="token assign-left variable">msufix</span><span class="token operator">=</span><span class="token string">&quot;f20_m10_g5&quot;</span>
+<span class="token assign-left variable">model</span><span class="token operator">=</span><span class="token variable">${mprefix}</span>_<span class="token variable">${msufix}</span>
+
+
+
+<span class="token assign-left variable">script_s04a</span><span class="token operator">=</span>04a_slurm_get_troughs_per_replicate.sh
+
+<span class="token builtin class-name">printf</span> <span class="token string">&quot;<span class="token variable">${model}</span> <span class="token entity" title="\n">\n</span>&quot;</span>
+<span class="token builtin class-name">printf</span> <span class="token string">&quot;<span class="token variable">${mprefix}</span> <span class="token variable">${windows}</span> <span class="token entity" title="\n">\n</span>&quot;</span>
+
+<span class="token function">mkdir</span> -p genomic_profile_<span class="token variable">${windows}</span>
+
+sbatch --array<span class="token operator">=</span><span class="token variable">${list_reps_s03}</span> <span class="token variable">${script_s04a}</span> <span class="token variable">${level}</span> <span class="token variable">${mprefix}</span> <span class="token variable">${samples}</span> <span class="token variable">${windows}</span>
+</pre><p><strong>example command line</strong>: <code>sbatch --array=1-200 $script 0.1 $mprefix 10 10k</code></p>
+<p><a href="#how-to-run-simulations-and-analyse-data">back to top &#x2191;</a></p>
+<h3 class="mume-header" id="242-combine-files">2.4.2 combine files</h3>
+
+<pre data-role="codeBlock" data-info="sh" class="language-bash"><span class="token comment"># same vars as s04a</span>
+<span class="token assign-left variable">samples</span><span class="token operator">=</span><span class="token number">10</span>
+<span class="token assign-left variable">founders</span><span class="token operator">=</span><span class="token number">20</span>
+<span class="token assign-left variable">migration</span><span class="token operator">=</span><span class="token number">10</span>
+<span class="token assign-left variable">growth</span><span class="token operator">=</span><span class="token number">5</span>
+
+<span class="token comment"># vars **different** from s04a</span>
+<span class="token assign-left variable">level</span><span class="token operator">=</span><span class="token number">10</span>
+<span class="token assign-left variable">from</span><span class="token operator">=</span><span class="token number">1</span>
+<span class="token assign-left variable">to</span><span class="token operator">=</span><span class="token number">200</span>
+
+<span class="token assign-left variable">script_s04b</span><span class="token operator">=</span>04b_slurm_ConCat_trough_files.sh
+
+<span class="token builtin class-name">printf</span> <span class="token string">&quot;sbatch <span class="token variable">${script_s04b}</span> <span class="token variable">${founders}</span> <span class="token variable">${migration}</span> <span class="token variable">${growth}</span> <span class="token variable">${samples}</span> <span class="token variable">${level}</span> <span class="token variable">${windows}</span> <span class="token variable">${from}</span> <span class="token variable">${to}</span> <span class="token entity" title="\n">\n</span>&quot;</span>
+
+sbatch <span class="token variable">${script_s04b}</span> <span class="token variable">${founders}</span> <span class="token variable">${migration}</span> <span class="token variable">${growth}</span> <span class="token variable">${samples}</span> <span class="token variable">${level}</span> <span class="token variable">${windows}</span> <span class="token variable">${from}</span> <span class="token variable">${to}</span>
+
+</pre><p><strong>example command line</strong>: <code>sbatch --array=1 $script 20 10 5 10 10 10k 1 200</code></p>
+<p><a href="#how-to-run-simulations-and-analyse-data">back to top &#x2191;</a></p>
+<h2 class="mume-header" id="25-convert-diversity-data-to-proportion-lost">2.5 Convert diversity data to proportion lost</h2>
+
+<pre data-role="codeBlock" data-info="bash" class="language-bash"><span class="token assign-left variable">target_folder</span><span class="token operator">=</span><span class="token string">&quot;fwd_RangeExpansion&quot;</span><span class="token punctuation">;</span><span class="token comment"># ------|</span>
+<span class="token assign-left variable">main_folder</span><span class="token operator">=</span><span class="token string">&quot;nope&quot;</span><span class="token punctuation">;</span><span class="token comment">#                       |</span>
+<span class="token assign-left variable">prefix</span><span class="token operator">=</span><span class="token string">&quot;1d_c5_l100_d100&quot;</span><span class="token punctuation">;</span><span class="token comment">#                 | --&gt; just used to define file location of data </span>
+<span class="token assign-left variable">model</span><span class="token operator">=</span><span class="token string">&quot;f20_m10_g5&quot;</span><span class="token punctuation">;</span><span class="token comment">#                       |</span>
+<span class="token assign-left variable">sufix</span><span class="token operator">=</span><span class="token string">&quot;nope&quot;</span><span class="token punctuation">;</span><span class="token comment">#                             |</span>
+<span class="token assign-left variable">file_location</span><span class="token operator">=</span><span class="token number">2</span><span class="token punctuation">;</span><span class="token comment"># -------------------------|</span>
+<span class="token assign-left variable">from</span><span class="token operator">=</span><span class="token number">1</span>
+<span class="token assign-left variable">to</span><span class="token operator">=</span><span class="token number">200</span>
+<span class="token assign-left variable">nsamp</span><span class="token operator">=</span><span class="token number">10</span>
+
+<span class="token assign-left variable">slurm_script</span><span class="token operator">=</span><span class="token string">&quot;07_slurm_convert_time_to_diversity_loss.sh&quot;</span>
+
+<span class="token builtin class-name">cd</span> /storage/homefs/fs19b061/<span class="token variable">${target_folder}</span>/<span class="token variable">${prefix}</span>_<span class="token variable">${model}</span>_<span class="token variable">${sufix}</span>
+
+<span class="token builtin class-name">printf</span> <span class="token string">&quot;<span class="token variable">${slurm_script}</span> <span class="token variable">${main_folder}</span> <span class="token variable">${prefix}</span> <span class="token variable">${model}</span> <span class="token variable">${file_location}</span>&quot;</span>
+sbatch --array<span class="token operator">=</span><span class="token number">1</span> <span class="token variable">${slurm_script}</span> <span class="token variable">${main_folder}</span> <span class="token variable">${prefix}</span> <span class="token variable">${model}</span> <span class="token variable">${sufix}</span> <span class="token variable">${file_location}</span> <span class="token variable">${from}</span> <span class="token variable">${to}</span> <span class="token variable">${nsamp}</span>
+</pre><p><strong>example command line</strong>: <code>sbatch array=1 $script nope 1d_c5_l100_d100 f20_m10_g5 nope 2 1 200 10</code></p>
+<p><strong>work directory for R script</strong> <code>${HOME}/${USER}/fwd_RangeExpansion/1d_c5_e5_l100_d100_f20_m10_g5/sim_files</code></p>
+<p><a href="#how-to-run-simulations-and-analyse-data">back to top &#x2191;</a></p>
+<h2 class="mume-header" id="26-trough-distribuitions-depending-on-recombination-landscape-permutation">2.6 trough distribuitions depending on recombination landscape (permutation)</h2>
+
+<pre data-role="codeBlock" data-info="bash" class="language-bash"><span class="token assign-left variable">lvl</span><span class="token operator">=</span><span class="token number">10</span>
+<span class="token assign-left variable">mod_prefix</span><span class="token operator">=</span><span class="token string">&quot;1d_c5_l100_d100&quot;</span>
+<span class="token assign-left variable">samp</span><span class="token operator">=</span><span class="token number">10</span>
+<span class="token assign-left variable">winsize</span><span class="token operator">=</span><span class="token string">&quot;10k&quot;</span>
+<span class="token assign-left variable">mod_sufix</span><span class="token operator">=</span><span class="token string">&quot;f20_m10_g5&quot;</span>
+<span class="token assign-left variable">main_dir</span><span class="token operator">=</span><span class="token string">&quot;<span class="token variable">${<span class="token environment constant">HOME</span>}</span>/<span class="token variable">${<span class="token environment constant">USER</span>}</span>/recMap_fwd_RangeExpansion&quot;</span>
+
+<span class="token assign-left variable">mod_tail_LIST</span><span class="token operator">=</span><span class="token punctuation">(</span><span class="token string">&quot;recMap_100k_m2&quot;</span> <span class="token string">&quot;recMap_100k_m3&quot;</span><span class="token punctuation">)</span>
+
+<span class="token keyword keyword-for">for</span> <span class="token for-or-select variable">mod_tail</span> <span class="token keyword keyword-in">in</span> <span class="token string">&quot;<span class="token variable">${mod_tail_LIST<span class="token punctuation">[</span>@<span class="token punctuation">]</span>}</span>&quot;</span><span class="token punctuation">;</span> <span class="token keyword keyword-do">do</span>
+  <span class="token builtin class-name">echo</span> <span class="token variable">${mod_tail}</span>
+
+  <span class="token builtin class-name">cd</span> <span class="token variable">${main_dir}</span>/<span class="token variable">${mod_prefix}</span>_<span class="token variable">${mod_sufix}</span>_<span class="token variable">${mod_tail}</span>
+  
+  <span class="token builtin class-name">echo</span> <span class="token variable">${<span class="token environment constant">PWD</span>}</span>
+
+  <span class="token function">mkdir</span> -p results_permutation_10k
+  
+  sbatch --array<span class="token operator">=</span><span class="token number">1</span>-200%50 06_slurm_permutation.sh <span class="token variable">${lvl}</span> <span class="token variable">${mod_prefix}</span> <span class="token variable">${samp}</span> <span class="token variable">${winsize}</span> <span class="token variable">${mod_sufix}</span> <span class="token variable">${mapType}</span>
+<span class="token keyword keyword-done">done</span>
+
+</pre><p>Resulting file:</p>
+<p><code>proba_rec_rate_in_troughs_lvl</code><strong>troughThresholdAsPercentage</strong><code>_</code><strong>completeModelName</strong><code>_</code><strong>sampleSize</strong><code>inds_win_</code><strong>windowsize</strong><code>k_r</code><strong>rep</strong><code>.txt</code></p>
+<table>
+<thead>
+<tr>
+<th>gen</th>
+<th>cpop</th>
+<th>rep</th>
+<th>obs.mean.rec</th>
+<th>probability</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>25003</td>
+<td>4</td>
+<td>132</td>
+<td>1.65147443650357e-08</td>
+<td>0.636666666666667</td>
+</tr>
+<tr>
+<td>25008</td>
+<td>9</td>
+<td>132</td>
+<td>1.63510992993476e-08</td>
+<td>0.896666666666667</td>
+</tr>
+<tr>
+<td>25013</td>
+<td>14</td>
+<td>132</td>
+<td>1.59076823935558e-08</td>
+<td>1</td>
+</tr>
+<tr>
+<td>25018</td>
+<td>19</td>
+<td>132</td>
+<td>1.61938738121737e-08</td>
+<td>0.846666666666667</td>
+</tr>
+<tr>
+<td>25023</td>
+<td>24</td>
+<td>132</td>
+<td>1.59505868076624e-08</td>
+<td>0.963333333333333</td>
+</tr>
+<tr>
+<td>25028</td>
+<td>29</td>
+<td>132</td>
+<td>1.62395872348557e-08</td>
+<td>0.643333333333333</td>
+</tr>
+</tbody>
+</table>
+<p><code>permut_mean_rec_rate_in_troughs_by_case_lvl</code><strong>troughThresholdAsPercentage</strong><code>_</code><strong>completeModelName</strong><code>_</code><strong>sampleSize</strong><code>inds_win_</code><strong>windowSize</strong><code>k_r</code><strong>repNumber</strong><code>.txt</code></p>
+<table>
+<thead>
+<tr>
+<th>gen</th>
+<th>cpop</th>
+<th>rep</th>
+<th>perm.mean.rec</th>
+<th>obs.mean.rec</th>
+<th>is.perm.rate.higher</th>
+<th>diff</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>25003</td>
+<td>4</td>
+<td>132</td>
+<td>1.67645079714128e-08</td>
+<td>1.65147443650357e-08</td>
+<td>TRUE</td>
+<td>2.49763606377155e-10</td>
+</tr>
+<tr>
+<td>25003</td>
+<td>4</td>
+<td>132</td>
+<td>1.65731280923584e-08</td>
+<td>1.65147443650357e-08</td>
+<td>TRUE</td>
+<td>5.83837273227164e-11</td>
+</tr>
+<tr>
+<td>25003</td>
+<td>4</td>
+<td>132</td>
+<td>1.66954370533259e-08</td>
+<td>1.65147443650357e-08</td>
+<td>TRUE</td>
+<td>1.80692688290289e-10</td>
+</tr>
+<tr>
+<td>25003</td>
+<td>4</td>
+<td>132</td>
+<td>1.68642550852116e-08</td>
+<td>1.65147443650357e-08</td>
+<td>TRUE</td>
+<td>3.49510720175962e-10</td>
+</tr>
+</tbody>
+</table>
+<h2 class="mume-header" id="27-trough-asymmetry">2.7 trough asymmetry</h2>
+
+<pre data-role="codeBlock" data-info="bash" class="language-bash"><span class="token assign-left variable">lvl</span><span class="token operator">=</span><span class="token number">10</span>
+<span class="token assign-left variable">mod_prefix</span><span class="token operator">=</span><span class="token string">&quot;1d_c5_l100_d100&quot;</span>
+<span class="token assign-left variable">samp</span><span class="token operator">=</span><span class="token number">10</span>
+<span class="token assign-left variable">winsize</span><span class="token operator">=</span><span class="token string">&quot;10k&quot;</span>
+<span class="token assign-left variable">main_dir</span><span class="token operator">=</span><span class="token string">&quot;<span class="token variable">${<span class="token environment constant">HOME</span>}</span>/<span class="token variable">${<span class="token environment constant">USER</span>}</span>/recMap_fwd_RangeExpansion&quot;</span>
+<span class="token assign-left variable">mod_tail</span><span class="token operator">=</span><span class="token string">&quot;recMap_100k&quot;</span>
+<span class="token assign-left variable">minRecRegionLength</span><span class="token operator">=</span><span class="token number">200</span>
+<span class="token comment"># mapType=&quot;m4&quot;</span>
+<span class="token comment"># mapType=&quot;m6&quot;</span>
+<span class="token assign-left variable">mapType</span><span class="token operator">=</span><span class="token string">&quot;m7&quot;</span>
+<span class="token assign-left variable">mod_sufix_LIST</span><span class="token operator">=</span><span class="token punctuation">(</span><span class="token string">&quot;f20_m10_g5&quot;</span><span class="token punctuation">)</span>
+
+<span class="token keyword keyword-for">for</span> <span class="token for-or-select variable">mod_sufix</span> <span class="token keyword keyword-in">in</span> <span class="token string">&quot;<span class="token variable">${mod_sufix_LIST<span class="token punctuation">[</span>@<span class="token punctuation">]</span>}</span>&quot;</span><span class="token punctuation">;</span> <span class="token keyword keyword-do">do</span>
+  <span class="token builtin class-name">echo</span> <span class="token variable">${mod_sufix}</span>
+
+  <span class="token builtin class-name">cd</span> <span class="token variable">${main_dir}</span>/<span class="token variable">${mod_prefix}</span>_<span class="token variable">${mod_sufix}</span>_<span class="token variable">${mod_tail}</span>_<span class="token variable">${mapType}</span>
+  
+  <span class="token builtin class-name">echo</span> <span class="token variable">${<span class="token environment constant">PWD</span>}</span>
+
+  <span class="token function">mkdir</span> -p results_asymmetry_<span class="token variable">${winsize}</span>
+ 
+  sbatch --array<span class="token operator">=</span><span class="token number">1</span>-200 08_slurm_trough_asymmetry.sh <span class="token variable">${lvl}</span> <span class="token variable">${mod_prefix}</span> <span class="token variable">${samp}</span> <span class="token variable">${winsize}</span> <span class="token variable">${mod_sufix}</span> <span class="token variable">${mapType}</span> <span class="token variable">${minRecRegionLength}</span>
+<span class="token keyword keyword-done">done</span>
+</pre><h1 class="mume-header" id="3-reference-to-the-figures">3. Reference to the Figures</h1>
+
+<h2 class="mume-header" id="31-genome-scan-and-trough-detection">3.1 Genome Scan and trough detection</h2>
+
+<p>Figure 1 <a href="./Figures/MBE_SchlichtaF_Figure1_RGB.tiff.md">./Figures/MBE_SchlichtaF_Figure1_RGB.tiff</a></p>
+<p>:::image source=&quot;./Figures/MBE_SchlichtaF_Figure1_RGB.tiff&quot;:::</p>
+<p><img src="./Figures/MBE_SchlichtaF_Figure1_RGB.tiff" alt="Figure 1"></p>
+
+      </div>
+      
+      
+    
+    
+    
+    
+    
+    
+    
+    
+  
+    </body></html>
